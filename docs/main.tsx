@@ -20,13 +20,13 @@ const ItemView: React.FunctionComponent<{
     item: Item,
     refresh: () => void,
 }> = ({ item, refresh }) => {
+    const style = item.status == 1 ? { textDecoration: "line-through" } : {};
     return (
         <div className="row">
-            <div className="column column-50">
-                <div>{item.title}</div>
-                <div style={{fontSize: "xx-small"}}>id:{item._id}</div>
+            <div className="column column-60">
+                <div style={style}>{item.title}</div>
+                <div style={{ fontSize: "xx-small" }}>id:{item._id} status:{item.status}</div>
             </div>
-            <div className="column column">{item.status}</div>
             <div className="column column">
                 {item.status == 0 ?
                     <a className="button" onClick={async () => await item.update({status: 1}) && refresh()}>DONE</a>

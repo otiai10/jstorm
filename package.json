@@ -5,11 +5,11 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest --config=./jest.config.ts",
-    "e2e": "npm run build && npm run build:app && ts-node ./e2e/run.ts",
-    "build": "npm run clean && tsc -p ./tsconfig.json",
-    "build:app": "parcel build --no-cache --target e2e",
+    "build:lib": "tsc -p ./tsconfig.json",
+    "build:e2e": "parcel build --no-cache --target e2e",
     "build:doc": "parcel build --no-cache --target docs",
-    "docs": "echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
+    "e2e": "npm run build:lib && npm run build:e2e && ts-node ./e2e/run.ts",
+    "doc": "npm run build:lib && npm run build:doc && echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
     "clean": "rm -rf ./lib ./e2e/app/dist"
   },
   "repository": {
