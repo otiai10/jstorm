@@ -1,0 +1,11 @@
+node_modules
+.github
+.parcel-cache
+.vscode
+coverage
+tsconfig.json
+jest.*.ts
+src
+tests
+docs
+e2e

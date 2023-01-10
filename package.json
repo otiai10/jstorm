@@ -1,6 +1,6 @@
 {
   "name": "jstorm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JavaScript Storage ORM (Object-Relational Mapper) for LocalStorage and Chrome Storage API",
   "main": "lib/index.js",
   "scripts": {
