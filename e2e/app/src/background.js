@@ -10,7 +10,7 @@ class Player extends Model {
 
 /**
  * Because chomex.Model encodes everything into JSON.string,
- * when we migrate it into storm, we need to JSON.parse
+ * when we migrate it into jstorm, we need to JSON.parse
  * and storage.{local|sync}.set.
  */
 self.setup_data = async function() {

@@ -5,7 +5,7 @@ declare var ReactDOM;
 
 /**
  * In your project, please use
- *   import { Model } from "storm/browser/local";
+ *   import { Model } from "jstorm/browser/local";
  */
 // import types from "react";
 import { Model } from "../lib/browser/local";
@@ -49,13 +49,13 @@ const App: React.FunctionComponent = () => {
         <div className="container" style={{ paddingTop: "16px" }}>
             <div className="row">
                 <div className="column">
-                    <h1>TODO App Example by <a href="https://github.com/otiai10/storm">storm</a></h1>
+                    <h1>TODO App Example by <a href="https://github.com/otiai10/jstorm">jstorm</a></h1>
                 </div>
             </div>
             <div className="row">
                 <div className="column">
-                    <pre><code>{`// Import from "storm/browser/local" for localStorage:
-import { Model } from "storm/browser/local";
+                    <pre><code>{`// Import from "jstorm/browser/local" for localStorage:
+import { Model } from "jstorm/browser/local";
 
 // Define your model:
 class Item extends Model {

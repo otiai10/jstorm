@@ -1,25 +1,25 @@
-# storm
+# jstorm
 
-[![version](https://img.shields.io/npm/v/storm)](https://www.npmjs.com/package/storm)
-[![downloads](https://img.shields.io/npm/dt/storm)](https://www.npmjs.com/package/storm)
-[![Node.js CI](https://github.com/otiai10/storm/actions/workflows/node.yml/badge.svg)](https://github.com/otiai10/storm/actions/workflows/node.yml)
-[![Chrome E2E Test](https://github.com/otiai10/storm/actions/workflows/chrome-test.yml/badge.svg)](https://github.com/otiai10/storm/actions/workflows/chrome-test.yml)
-[![codecov](https://codecov.io/github/otiai10/storm/branch/main/graph/badge.svg?token=z3Nzs6xVGF)](https://codecov.io/github/otiai10/storm)
-[![Maintainability](https://api.codeclimate.com/v1/badges/df8271f73cd0791369f6/maintainability)](https://codeclimate.com/github/otiai10/storm/maintainability)
+[![version](https://img.shields.io/npm/v/jstorm)](https://www.npmjs.com/package/jstorm)
+[![downloads](https://img.shields.io/npm/dt/jstorm)](https://www.npmjs.com/package/jstorm)
+[![Node.js CI](https://github.com/otiai10/jstorm/actions/workflows/node.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/node.yml)
+[![Chrome E2E Test](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml)
+[![codecov](https://codecov.io/github/otiai10/jstorm/branch/main/graph/badge.svg?token=z3Nzs6xVGF)](https://codecov.io/github/otiai10/jstorm)
+[![Maintainability](https://api.codeclimate.com/v1/badges/df8271f73cd0791369f6/maintainability)](https://codeclimate.com/github/otiai10/jstorm/maintainability)
 
 ORM-like API provider for `window.localStorage` and `chrome.storage`, or any other data store.
 
 ```typescript
 // For window.localStorage:
-import { Model } from "storm/browser/local";
+import { Model } from "jstorm/browser/local";
 
 // For chrome.storage.sync:
-import { Model } from "storm/chrome/sync";
+import { Model } from "jstorm/chrome/sync";
 ```
 
 ```typescript
 // For your custom storage:
-import { Model } from "storm";
+import { Model } from "jstorm";
 Model.__area__ = yourCoolStorageAccessor;
 // NOTE: It should implement `chrome.storage.StorageArea` interface.
 ```
@@ -28,7 +28,7 @@ Model.__area__ = yourCoolStorageAccessor;
 
 ```typescript
 // In your JS/TS
-import { Model } from "storm/chrome/local";
+import { Model } from "jstorm/chrome/local";
 
 // Define your model,
 class Player extends Model {
@@ -56,7 +56,7 @@ class Player extends Model {
 ## Defining your model class
 
 ```typescript
-import { Model } from "storm";
+import { Model } from "jstorm";
 
 class Player extends Model {
     // You can define your own members of your model.
@@ -173,4 +173,4 @@ console.log(list.length); // 0
 
 # Issues
 
-- https://github.com/otiai10/storm/issues
+- https://github.com/otiai10/jstorm/issues

@@ -1,5 +1,5 @@
 {
-  "name": "storm",
+  "name": "jstorm",
   "version": "0.0.1",
   "description": "JavaScript Storage ORM (Object-Relational Mapper) for LocalStorage and Chrome Storage API",
   "main": "lib/index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/otiai10/storm.git"
+    "url": "git+https://github.com/otiai10/jstorm.git"
   },
   "keywords": [
     "chrome",
@@ -25,9 +25,9 @@
   "author": "otiai10",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/otiai10/storm/issues"
+    "url": "https://github.com/otiai10/jstorm/issues"
   },
-  "homepage": "https://github.com/otiai10/storm#readme",
+  "homepage": "https://github.com/otiai10/jstorm#readme",
   "devDependencies": {
     "@types/chrome": "^0.0.204",
     "@types/jest": "^29.2.4",
