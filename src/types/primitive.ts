@@ -1,4 +1,4 @@
-import { TypeCheckFunc } from "./base";
+import type { TypeCheckFunc } from "./base";
 
 /**
  * createTypeChecker generates a simple type checker.

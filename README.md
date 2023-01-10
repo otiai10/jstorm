@@ -7,16 +7,17 @@
 [![codecov](https://codecov.io/github/otiai10/storm/branch/main/graph/badge.svg?token=z3Nzs6xVGF)](https://codecov.io/github/otiai10/storm)
 [![Maintainability](https://api.codeclimate.com/v1/badges/df8271f73cd0791369f6/maintainability)](https://codeclimate.com/github/otiai10/storm/maintainability)
 
-ORM-like API provider for `chrome.storage`.
-
-Note: If you want it for `window.localStorage`, check [localstorm](https://github.com/otiai10/localstorm).
+ORM-like API provider for `window.localStorage` and `chrome.storage`.
 
 # Example Usage
 
 ```typescript
 // In your background.{ts|js}
 
-import { Model } from "chromestrom";
+import { Model } from "storm/chrome/local";
+
+// If you want to use `window.localStorage`, then
+/* import { Model } from "storm/browser/local"; */
 
 // Define your model,
 class Player extends Model {

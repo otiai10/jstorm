@@ -12,7 +12,11 @@
         "declaration": true
     },
     "files": [
-        "src/index.ts"
+        "src/index.ts",
+        "src/chrome/local.ts",
+        "src/chrome/sync.ts",
+        "src/browser/local.ts",
+        "src/browser/session.ts",
     ],
     "exclude": [
         "node_modules"

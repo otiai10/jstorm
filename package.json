@@ -8,7 +8,7 @@
     "e2e": "npm run build && npm run build:app && ts-node ./e2e/run.ts",
     "build": "npm run clean && tsc -p ./tsconfig.json",
     "build:app": "parcel build --no-cache --target e2e",
-    "clean": "rm -rf ./lib ./e2e/app/lib"
+    "clean": "rm -rf ./lib ./e2e/app/dist"
   },
   "repository": {
     "type": "git",

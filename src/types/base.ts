@@ -1,4 +1,4 @@
-import { Model } from "../model";
+import type { Model } from "../model";
 
 export declare interface TypeCheckFunc {
     (value: any, name: string): null;

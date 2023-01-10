@@ -1,4 +1,4 @@
-import { StorageArea } from "../interface";
+import type { StorageArea } from "../interface";
 
 /**
  * Wrap any storage interface to `chrome.storage` interface.

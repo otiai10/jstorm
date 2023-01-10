@@ -1,4 +1,4 @@
-import { StorageArea } from "../interface";
+import type { StorageArea } from "../interface";
 import {} from "../types";
 
 type ModelConstructor<T> = {

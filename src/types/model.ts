@@ -1,5 +1,5 @@
-import { Model } from "../model";
-import { TypeCheckFunc } from "./base";
+import type { Model } from "../model";
+import type { TypeCheckFunc } from "./base";
 
 /**
  * ModelTypeOption can specify the options of reference type.

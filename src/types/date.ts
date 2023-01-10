@@ -1,4 +1,4 @@
-import { TypeCheckFunc } from "./base";
+import type { TypeCheckFunc } from "./base";
 
 export function createDateTypeChecker(): TypeCheckFunc {
     const checkType = (required: boolean, value: any, name: string): null => {

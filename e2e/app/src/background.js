@@ -1,4 +1,4 @@
-import { Model } from "../../../lib";
+import { Model } from "../../../lib/chrome/local";
 import sampledata from "../kcwidget/localstorage.json";
 
 class Player extends Model {
@@ -7,7 +7,6 @@ class Player extends Model {
         return `Hello, my name is ${this.name}!`;
     }
 }
-Player.__area__ = chrome.storage.local;
 
 /**
  * Because chomex.Model encodes everything into JSON.string,
