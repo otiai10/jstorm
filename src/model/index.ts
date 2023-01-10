@@ -94,6 +94,13 @@ export class Model extends IDProvider {
         return this;
     }
 
+    async update<T>(this: T & Model, props: Record<string, any>): Promise<T> {
+        Object.keys(props).map(key => {
+            if (this.hasOwnProperty(key)) this[key] = props[key];
+        });
+        return this.save();
+    }
+
     // TODO: See https://github.com/otiai10/chomex/blob/main/src/Model/index.ts#L330-L348
     // public decode<T>(this: T, obj: { [key: string]: any }) {
     //     Object.keys(obj).map(key => {
