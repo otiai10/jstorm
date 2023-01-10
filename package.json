@@ -8,7 +8,7 @@
     "e2e": "npm run build && npm run build:app && ts-node ./e2e/run.ts",
     "build": "npm run clean && tsc -p ./tsconfig.json",
     "build:app": "parcel build --no-cache --target e2e",
-    "example": "echo chrome.exe ./example/index.html --user-data-dir=./example/tmp --disable-web-security",
+    "docs": "echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
     "clean": "rm -rf ./lib ./e2e/app/dist"
   },
   "repository": {
