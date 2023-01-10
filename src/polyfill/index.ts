@@ -98,7 +98,7 @@ function convertWebStorageToChromeStorageArea(webstorage: Storage): StorageArea 
         } else if (a instanceof Function) {
             keys = Object.keys(webstorage);
             callback = a;
-        } else if (a instanceof String) {
+        } else if (typeof a == "string") {
             keys = [a as string];
         } else if (a instanceof Array) {
             keys = a;

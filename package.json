@@ -1,13 +1,14 @@
 {
   "name": "storm",
   "version": "0.0.1",
-  "description": "Storage ORM for LocalStorage and Chrome Storage",
+  "description": "JavaScript Storage ORM (Object-Relational Mapper) for LocalStorage and Chrome Storage API",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest --config=./jest.config.ts",
     "e2e": "npm run build && npm run build:app && ts-node ./e2e/run.ts",
     "build": "npm run clean && tsc -p ./tsconfig.json",
     "build:app": "parcel build --no-cache --target e2e",
+    "build:doc": "parcel build --no-cache --target docs",
     "docs": "echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
     "clean": "rm -rf ./lib ./e2e/app/dist"
   },
@@ -43,6 +44,12 @@
       "source": "./e2e/app/src/background.js",
       "distDir": "./e2e/app/dist",
       "optimize": false,
+      "sourceMap": false
+    },
+    "docs": {
+      "source": "./docs/main.ts",
+      "distDir": "./docs",
+      "optimize": true,
       "sourceMap": false
     }
   }

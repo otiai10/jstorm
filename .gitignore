@@ -135,7 +135,7 @@ lib
 # Dev environment
 .DS_Store
 /docs/*
+!/docs/main.ts
 !/docs/main.js
 !/docs/main.css
 !/docs/index.html
-!/docs/run.sh
