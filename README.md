@@ -7,17 +7,28 @@
 [![codecov](https://codecov.io/github/otiai10/storm/branch/main/graph/badge.svg?token=z3Nzs6xVGF)](https://codecov.io/github/otiai10/storm)
 [![Maintainability](https://api.codeclimate.com/v1/badges/df8271f73cd0791369f6/maintainability)](https://codeclimate.com/github/otiai10/storm/maintainability)
 
-ORM-like API provider for `window.localStorage` and `chrome.storage`.
+ORM-like API provider for `window.localStorage` and `chrome.storage`, or any other data store.
+
+```typescript
+// For window.localStorage:
+import { Model } from "storm/browser/local";
+
+// For chrome.storage.sync:
+import { Model } from "storm/chrome/sync";
+```
+
+```typescript
+// For your custom storage:
+import { Model } from "storm";
+Model.__area__ = yourCoolStorageAccessor;
+// NOTE: It should implement `chrome.storage.StorageArea` interface.
+```
 
 # Example Usage
 
 ```typescript
-// In your background.{ts|js}
-
+// In your JS/TS
 import { Model } from "storm/chrome/local";
-
-// If you want to use `window.localStorage`, then
-/* import { Model } from "storm/browser/local"; */
 
 // Define your model,
 class Player extends Model {
@@ -35,7 +46,7 @@ class Player extends Model {
     const y = await Player.create({ name: "hiromu", age: 32 });
 
     // Retrieve records from chrome.storage.
-    console.log(await Player.list()); // 2
+    console.log(await Player.list()); // [Player, Player] length 2
     console.log(await Player.find(x._id)); // Player {name:"otiai10", age: 17}
 })();
 ```
@@ -73,14 +84,14 @@ NOTE: `new` does NOT save constructed object yet. Please use `save` to make it p
 
 ## save
 
-To save unsaved obejct to `chrome.storage`:
+To save unsaved obejct to the storage:
 
 ```typescript
 await john.save();
 console.log(john._id); // 1672363730924
 ```
 
-Now `_id` is generated because it's saved on `chrome.storage`.
+Now `_id` is generated because it's saved on the storage.
 
 ## create
 
