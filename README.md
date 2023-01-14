@@ -169,7 +169,25 @@ console.log(list.length); // 0
 
 ## schema
 
-// TODO:
+Use `static schema` to define relation between your `Model`s.
+
+```typescript
+import { Model, Types } from "jstorm/chrome/local";
+
+class Team extends Model {
+    public name: string;
+    public captain: Player;
+    public admins: Player[];
+
+    static override schema = {
+        name: Types.string.isRequired,
+        captain: Types.model(Player, { eager: true }).isRequired,
+        admins: Types.arrayOf(Types.model(Player)),
+    }
+}
+```
+
+> NOTE: When `{eager: true}` is provided in schema definition of `Types.model`, this model always look up your storage to populate specified fields, eagerly. Otherwise, this model just instantiate this field from what's saved under this model.
 
 # Issues
 
