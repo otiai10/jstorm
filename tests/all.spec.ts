@@ -1,7 +1,7 @@
 /// <reference path="../node_modules/@types/chrome/index.d.ts" />
 
-import { Model, Schema } from "../src/model";
-import { Types, type TypeCheckFunc } from "../src/types";
+import { Model } from "../src/model";
+import { Types } from "../src/types";
 
 describe("Model", () => {
 
@@ -109,6 +109,21 @@ describe("Model", () => {
             expect(await Player.list()).toHaveLength(3);
             expect(await Player.filter(p => p.name.includes("iai"))).toHaveLength(2);
             expect(await Player.filter(p => p.name.startsWith("Ero"))).toHaveLength(1);
+        })
+    });
+
+    describe("update", () => {
+        it("should update specific field of the model", async () => {
+            class Player extends Model {
+                public name: string;
+                public age: number;
+            }
+            const foo = await Player.create({ name: "Foo", age: 17 });
+            await foo.update({ age: 19 });
+            const found = await Player.find(foo._id!);
+            expect(found?.name).toBe("Foo");
+            expect(found?.age).toBe(19);
+            expect(foo.age).toBe(19);
         })
     });
 

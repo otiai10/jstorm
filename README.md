@@ -71,7 +71,7 @@ class Player extends Model {
 
 That's all to get started. Let's enjoy.
 
-## new
+## `new`
 
 To construct new model object:
 
@@ -82,7 +82,7 @@ console.log(john._id); // null
 
 NOTE: `new` does NOT save constructed object yet. Please use `save` to make it persistent.
 
-## save
+## `save`
 
 To save unsaved obejct to the storage:
 
@@ -93,7 +93,7 @@ console.log(john._id); // 1672363730924
 
 Now `_id` is generated because it's saved on the storage.
 
-## create
+## `create`
 
 Just a short-hand of `new` and `save`:
 
@@ -102,7 +102,7 @@ const paul = await Player.create({name: "Paul", age: 16});
 console.log(paul._id); // 1672968746499
 ```
 
-## list
+## `list`
 
 To list up all entities saved on this namespace:
 
@@ -112,7 +112,7 @@ console.log(all.length);  // 2
 console.log(all[0].name); // John
 ```
 
-## dict
+## `dict`
 
 To get all entities saved on this namespace as a dict:
 
@@ -122,7 +122,7 @@ console.log(Object.entries(dict));
 // [[1672363730924, Player], [1672968746499, Player]]
 ```
 
-## find
+## `find`
 
 To find specific object saved on this namespace:
 
@@ -131,7 +131,7 @@ const found = await Player.find("1672968746499");
 console.log(found?.name); // Paul
 ```
 
-## filter
+## `filter`
 
 To find objects which should match a specific criteria:
 
@@ -141,11 +141,15 @@ const filtered = await Player.filter(criteria);
 console.log(filtered.length); // 1
 ```
 
-## update
+## `update`
 
-// TODO:
+```typescript
+await john.update({ age: 21 });
+const found = await Player.find(john._id);
+console.log(found.age); // 21
+```
 
-## delete
+## `delete`
 
 To delete a specific object:
 
@@ -155,7 +159,7 @@ const found = await Player.find(john._id);
 console.log(found); // null
 ```
 
-## drop
+## `drop`
 
 To delete all objects saved on this namespace:
 
@@ -167,7 +171,7 @@ console.log(list.length); // 0
 
 # Advanced properties
 
-## schema
+## `schema`
 
 Use `static schema` to define relation between your `Model`s.
 
