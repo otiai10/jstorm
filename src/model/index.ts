@@ -1,6 +1,8 @@
 import type { StorageArea } from "../interface";
 import type { TypeCheckFunc } from "../types";
 
+export type Schema = { [key: string]: TypeCheckFunc };
+
 type ModelConstructor<T> = {
     new(props?: any): T;
     __ns__(): string;
@@ -10,7 +12,7 @@ type ModelConstructor<T> = {
 
     list<T>(): Promise<T[]>;
 
-    schema: { [key: string]: TypeCheckFunc };
+    schema: Schema;
 };
 
 class IDProvider {
@@ -32,7 +34,7 @@ export class Model extends IDProvider {
     }
     static __area__: StorageArea = chrome?.storage?.local;
 
-    static schema: { [key: string]: TypeCheckFunc } = {};
+    static schema: Schema = {};
 
     static useStorage(area: StorageArea) {
         this.__area__ = area;
