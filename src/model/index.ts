@@ -4,19 +4,19 @@ import type { TypeCheckFunc } from "../types";
 export type Schema = { [key: string]: TypeCheckFunc };
 
 type ModelConstructor<T> = {
-    new(props?: any): T;
+    schema: Schema;
+    _area_: StorageArea;
+
     __ns__(): string;
-    __area__: StorageArea;
     __rawdict__(): { [key: string]: any };
-    __nextID__(ensemble?: { [key: string]: any }): string;
+    _nextID_(ensemble?: { [key: string]: any }): string;
 
     list<T>(): Promise<T[]>;
-
-    schema: Schema;
+    new(props?: any): T;
 };
 
 class IDProvider {
-    static __nextID__: (ensemble?: { [key: string]: any }) => string = this.timestampID;
+    static _nextID_: (ensemble?: { [key: string]: any }) => string = this.timestampID;
     static timestampID(): string {
         return String(Date.now());
     }
@@ -28,22 +28,68 @@ class IDProvider {
 
 export class Model extends IDProvider {
 
-    static __namespace__?: string;
+    /**
+     * _namespace_
+     * Overwite this property if you want to uglify / mangle your JS,
+     * and set the same name as your Model class.
+     * e.g.,
+     *     class Player extends Model {
+     *         static overwite _namespace_ = "Player";
+     *     }
+     */
+    static _namespace_?: string;
+
+    /**
+     * _area_
+     * Overwrite this proeprty if you want to use your custom storage.
+     * e.g.,
+     *     class Player extends Model {
+     *         static overwrite _area_ = chrome.storage.session;
+     *     }
+     *
+     * You ain't need it because you can just use followings to embed
+     * standard storage interfaces.
+     *
+     *     // For chrome.storage.local,
+     *     import { Model } from "jstorm/chrome/local";
+     *
+     *     // For chrome.storage.sync,
+     *     import { Model } from "jstorm/chrome/sync";
+     *
+     *     // For window.localStorage,
+     *     import { Model } from "jstorm/browser/local";
+     *
+     *     // For window.sessionStorage,
+     *     import { Model } from "jstorm/browser/session";
+     */
+    static _area_: StorageArea = chrome?.storage?.local;
+
+    /**
+     * schema
+     * Overwite this property to spacify validation and relation rules of this Model.
+     * Please check https://github.com/otiai10/jstorm#schema for more detail.
+     */
+    static schema: Schema = {};
+
+
+    /**
+     * @private Strictly internal
+     */
     static __ns__<T>(this: ModelConstructor<T>): string {
         return this["__namespace__"] ?? this.name;
     }
-    static __area__: StorageArea = chrome?.storage?.local;
 
-    static schema: Schema = {};
-
-    static useStorage(area: StorageArea) {
-        this.__area__ = area;
-    }
-
+    /**
+     * @private Strictly internal
+     */
     static async __rawdict__<T>(this: ModelConstructor<T>): Promise<{ [key: string]: any }> {
         const namespace: string = this.__ns__();
-        const ensemble = await this.__area__.get(namespace);
+        const ensemble = await this._area_.get(namespace);
         return ((ensemble || {})[namespace] || {});
+    }
+
+    static useStorage(area: StorageArea) {
+        this._area_ = area;
     }
 
     static new<T>(this: ModelConstructor<T>, props?: Record<string, any>, _id?: string): T {
@@ -64,7 +110,7 @@ export class Model extends IDProvider {
         const res: T[] = [];
         for (let id in dict) {
             const instance = this["new"](dict[id], id) as Model;
-            await instance.decode(dict[id]);
+            await instance.__decode__(dict[id]);
             res.push(instance as T);
         }
         return res;
@@ -78,12 +124,12 @@ export class Model extends IDProvider {
         const dict = await this.__rawdict__();
         if (!dict[id]) return null;
         const instance = this["new"](dict[id], id) as Model;
-        await instance.decode(dict[id]);
+        await instance.__decode__(dict[id]);
         return instance as T;
     }
 
     static async drop<T>(this: ModelConstructor<T>): Promise<void> {
-        await this.__area__.set({ [this.__ns__()]: {} });
+        await this._area_.set({ [this.__ns__()]: {} });
         return;
     }
 
@@ -92,9 +138,9 @@ export class Model extends IDProvider {
     async save<T>(this: T & Model): Promise<T> {
         const parent = (this.constructor as ModelConstructor<T>);
         const dict = await parent.__rawdict__();
-        if (!this._id) this._id = parent.__nextID__(dict);
+        if (!this._id) this._id = parent._nextID_(dict);
         dict[this._id!] = this;
-        await parent.__area__.set({ [parent.__ns__()]: dict });
+        await parent._area_.set({ [parent.__ns__()]: dict });
         return this;
     }
 
@@ -102,7 +148,7 @@ export class Model extends IDProvider {
         const parent = (this.constructor as ModelConstructor<T>);
         const dict = await parent.__rawdict__();
         delete dict[this._id];
-        await parent.__area__.set({ [parent.__ns__()]: dict });
+        await parent._area_.set({ [parent.__ns__()]: dict });
         delete this._id;
         return this;
     }
@@ -114,14 +160,12 @@ export class Model extends IDProvider {
         return this.save();
     }
 
-    // TODO: See https://github.com/otiai10/chomex/blob/main/src/Model/index.ts#L330-L348
-    // public decode<T>(this: T, obj: { [key: string]: any }) {
-    //     Object.keys(obj).map(key => {
-    //         this[key] = obj[key];
-    //     });
-    //     return this;
-    // }
-    async decode<T>(this: T & Model, raw: { [prop: string]: any }): Promise<T> {
+    /**
+     * Strictly internal
+     * @param {Object} raw
+     * @returns {Promise<T>}
+     */
+    async __decode__<T>(this: T & Model, raw: { [prop: string]: any }): Promise<T> {
         const { schema } = (this.constructor as ModelConstructor<T>);
         for (let key in schema) {
             if (!this.hasOwnProperty(key)) continue;
@@ -135,15 +179,4 @@ export class Model extends IDProvider {
         return this;
     }
 
-    // TODO: See https://github.com/otiai10/chomex/blob/main/src/Model/index.ts#L350-L373
-    // public encode<T>(this: T): { [key: string]: any } {
-    //     const encoded: { [key: string]: any } = {};
-    //     for (const prop in this) {
-    //         if (!this.hasOwnProperty(prop)) {
-    //             continue;
-    //         }
-    //         encoded[prop] = this[prop];
-    //     }
-    //     return encoded;
-    // }
 }

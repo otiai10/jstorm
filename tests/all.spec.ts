@@ -38,7 +38,7 @@ describe("Model", () => {
     describe("create", () => {
         it("is just a shorthand of new().save()", async () => {
             class Player extends Model {
-                static override __namespace__ = "Player";
+                static override _namespace_ = "Player";
                 public name: string;
             }
             const otiai20 = await Player.create({ name: "otiai20" });
@@ -70,7 +70,7 @@ describe("Model", () => {
         it("should delete the instance specifically", async () => {
             class Player extends Model {
                 public name: string;
-                static override __nextID__ = Model.sequentialID;
+                static override _nextID_ = Model.sequentialID;
             }
             await Player.create({ name: "otiai3001" });
             const p = await Player.create({ name: "otiai3002" });

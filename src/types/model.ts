@@ -53,7 +53,7 @@ export function modelTypeChecker(
   check.load = async (rawObject) => {
     if (!opt.eager) {
       const instance = check.ref["new"](rawObject, rawObject["_id"]);
-      await instance.decode(rawObject);
+      await instance.__decode__(rawObject);
       return instance;
     }
     if (!rawObject) {

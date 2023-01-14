@@ -3,6 +3,6 @@ import * as polyfill from "../polyfill";
 import { StorageArea } from "../interface";
 
 export class Model extends base.Model {
-    static override __area__: StorageArea = polyfill.use(globalThis.localStorage);
+    static override _area_: StorageArea = polyfill.use(globalThis.localStorage);
 }
 export { Types } from "../types";
