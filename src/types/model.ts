@@ -52,8 +52,9 @@ export function modelTypeChecker(
   check.ref = refConstructor;
   check.load = async (rawObject) => {
     if (!opt.eager) {
-      // eslint-disable-next-line new-cap
-      return new check.ref(rawObject);
+      const instance = check.ref["new"](rawObject, rawObject["_id"]);
+      await instance.decode(rawObject);
+      return instance;
     }
     if (!rawObject) {
       return;

@@ -1,6 +1,6 @@
 /// <reference path="../node_modules/@types/chrome/index.d.ts" />
 
-import { Model } from "../src/model";
+import { Model, Schema } from "../src/model";
 import { Types, type TypeCheckFunc } from "../src/types";
 
 describe("Model", () => {
@@ -135,16 +135,29 @@ describe("Model", () => {
             const jack = await Player.create({ name: "Jack" });
             const benn = await Player.create({ name: "Benn" });
             const nick = await Player.create({ name: "Nick" });
-            const team = Team.new({ name: "Broncos" });
-            team.captain = nick;
-            team.admins = [benn, jack];
+            const broncos = Team.new({ name: "Broncos" });
+            broncos.captain = nick;
+            broncos.admins = [benn, jack];
 
-            const saved = await team.save();
+            const saved = await broncos.save();
 
             const found = await Team.find(saved._id!);
             expect(found?.admins[0]).toBeInstanceOf(Player);
             expect(found?.captain).toBeInstanceOf(Player);
             expect(found?.captain._id).toBe(nick._id);
-        })
+
+            class Conference extends Model {
+                public teams: Team[] = [];
+                static schema = {
+                    teams: Types.arrayOf(Types.model(Team)),
+                    // teams: Types.arrayOf(Types.model(Team, { eager: true })),
+                }
+            }
+            const afc = await Conference.create({
+                teams: [broncos],
+            });
+            const conf = await Conference.find(afc._id!);
+            expect(conf?.teams[0].captain).toBeInstanceOf(Player);
+        });
     });
 });
