@@ -1,5 +1,5 @@
 import type { StorageArea } from "../interface";
-import {} from "../types";
+import type { TypeCheckFunc } from "../types";
 
 type ModelConstructor<T> = {
     new(props?: any): T;
@@ -9,6 +9,8 @@ type ModelConstructor<T> = {
     __nextID__(ensemble?: { [key: string]: any }): string;
 
     list<T>(): Promise<T[]>;
+
+    schema: { [key: string]: TypeCheckFunc };
 };
 
 class IDProvider {
@@ -29,6 +31,8 @@ export class Model extends IDProvider {
         return this["__namespace__"] ?? this.name;
     }
     static __area__: StorageArea = chrome?.storage?.local;
+
+    static schema: { [key: string]: TypeCheckFunc } = {};
 
     static useStorage(area: StorageArea) {
         this.__area__ = area;
@@ -55,9 +59,13 @@ export class Model extends IDProvider {
 
     static async list<T>(this: ModelConstructor<T>): Promise<T[]> {
         const dict = await this.__rawdict__();
-        return Object.entries(dict).map(([id, props]) => {
-            return (this as any)["new"](props, id); // decode to class instances.
-        });
+        const res: T[] = [];
+        for (let id in dict) {
+            const instance = this["new"](dict[id], id) as Model;
+            await instance.decode(dict[id]);
+            res.push(instance as T);
+        }
+        return res;
     }
 
     static async filter<T>(this: ModelConstructor<T>, func: (v: T, i?: number, arr?: T[]) => boolean): Promise<T[]> {
@@ -66,7 +74,10 @@ export class Model extends IDProvider {
 
     static async find<T>(this: ModelConstructor<T>, id: string): Promise<T | null> {
         const dict = await this.__rawdict__();
-        return dict[id] ? this["new"](dict[id], id) : null;
+        if (!dict[id]) return null;
+        const instance = this["new"](dict[id], id) as Model;
+        await instance.decode(dict[id]);
+        return instance as T;
     }
 
     static async drop<T>(this: ModelConstructor<T>): Promise<void> {
@@ -108,6 +119,19 @@ export class Model extends IDProvider {
     //     });
     //     return this;
     // }
+    async decode<T>(this: T & Model, raw: { [prop: string]: any }): Promise<T> {
+        const { schema } = (this.constructor as ModelConstructor<T>);
+        for (let key in schema) {
+            if (!this.hasOwnProperty(key)) continue;
+            if (!raw.hasOwnProperty(key)) continue;
+            if (typeof schema[key].load == "function") {
+                this[key] = await schema[key].load(raw[key]);
+            } else {
+                this[key] = raw[key];
+            }
+        }
+        return this;
+    }
 
     // TODO: See https://github.com/otiai10/chomex/blob/main/src/Model/index.ts#L350-L373
     // public encode<T>(this: T): { [key: string]: any } {

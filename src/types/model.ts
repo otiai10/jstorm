@@ -50,7 +50,7 @@ export function modelTypeChecker(
   check.isRequired = checkRoot.bind(null, true);
   // To decode this property as a Model, store the constructor here.
   check.ref = refConstructor;
-  check.load = (rawObject) => {
+  check.load = async (rawObject) => {
     if (!opt.eager) {
       // eslint-disable-next-line new-cap
       return new check.ref(rawObject);
@@ -61,7 +61,8 @@ export function modelTypeChecker(
     if (typeof rawObject._id === 'undefined') {
       return;
     }
-    return check.ref.find(rawObject._id);
+    return await check.ref.find(rawObject._id);
   };
+  check.isRequired.load = check.load;
   return check;
 };

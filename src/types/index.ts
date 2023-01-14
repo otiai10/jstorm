@@ -1,6 +1,8 @@
+export type { TypeCheckFunc } from "./base";
 import { createPrimitiveTypeChecker } from "./primitive";
 import { createDateTypeChecker } from "./date";
 import { modelTypeChecker } from "./model";
+import { arrayOfTypeChecker } from "./arrayof";
 
 export const Types = {
     /**
@@ -21,5 +23,6 @@ export const Types = {
      * Reference object types
      */
     model: modelTypeChecker,
+    arrayOf: arrayOfTypeChecker,
 };
 

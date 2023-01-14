@@ -1,6 +1,7 @@
 /// <reference path="../node_modules/@types/chrome/index.d.ts" />
 
 import { Model } from "../src/model";
+import { Types, type TypeCheckFunc } from "../src/types";
 
 describe("Model", () => {
 
@@ -108,6 +109,42 @@ describe("Model", () => {
             expect(await Player.list()).toHaveLength(3);
             expect(await Player.filter(p => p.name.includes("iai"))).toHaveLength(2);
             expect(await Player.filter(p => p.name.startsWith("Ero"))).toHaveLength(1);
+        })
+    });
+
+    describe("schema", () => {
+        it("should define types of properties", async () => {
+            class Player extends Model {
+                public name: string;
+                public age: number;
+                static override schema = {
+                    name: Types.string.isRequired,
+                    age: Types.number,
+                }
+            }
+            class Team extends Model {
+                public name: string;
+                public captain: Player;
+                public admins: Player[];
+                static override schema = {
+                    name: Types.string.isRequired,
+                    captain: Types.model(Player, { eager: true }).isRequired,
+                    admins: Types.arrayOf(Types.model(Player)),
+                }
+            }
+            const jack = await Player.create({ name: "Jack" });
+            const benn = await Player.create({ name: "Benn" });
+            const nick = await Player.create({ name: "Nick" });
+            const team = Team.new({ name: "Broncos" });
+            team.captain = nick;
+            team.admins = [benn, jack];
+
+            const saved = await team.save();
+
+            const found = await Team.find(saved._id!);
+            expect(found?.admins[0]).toBeInstanceOf(Player);
+            expect(found?.captain).toBeInstanceOf(Player);
+            expect(found?.captain._id).toBe(nick._id);
         })
     });
 });
