@@ -175,4 +175,26 @@ describe("Model", () => {
             expect(conf?.teams[0].captain).toBeInstanceOf(Player);
         });
     });
+
+    describe("default", () => {
+        it("should provide default dataset", async () => {
+            class NotificationSetting extends Model {
+                public enabled: boolean;
+                public greet: string;
+                static override default = {
+                    daytime: {
+                        enabled: true,
+                        greet: "Hello!",
+                    },
+                    nighttime: {
+                        enabled: false,
+                        greet: "Good evening!",
+                    },
+                }
+            }
+            const daytime = await NotificationSetting.find("daytime");
+            expect(daytime?.enabled).toBe(true);
+            expect(daytime?.greet).toBe("Hello!");
+        });
+    });
 });

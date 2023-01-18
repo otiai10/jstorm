@@ -5,6 +5,7 @@ export type Schema = { [key: string]: TypeCheckFunc };
 
 type ModelConstructor<T> = {
     schema: Schema;
+    default?: { [key: string]: any };
     _area_: StorageArea;
 
     __ns__(): string;
@@ -13,7 +14,6 @@ type ModelConstructor<T> = {
 
     list<T>(): Promise<T[]>;
     new(props?: any): T;
-    _default_?: { [key: string]: any };
 };
 
 class IDProvider {
@@ -39,28 +39,6 @@ export class Model extends IDProvider {
      *     }
      */
     static _namespace_?: string;
-
-    /**
-     * _default_
-     * Overwite this property if you want to get some value even when nothing is stored.
-     * When some saving operation, like `save` or `create`, has been called,
-     * this default records will be stored in your storage as well.
-     * e.g.,
-     *     class NotificationSetting extends Model {
-     *         static overwrite _default_ = {
-     *             "daytime": {
-     *               enabled: true,
-     *             },
-     *             "nighttime": {
-     *               enabled: false,
-     *             },
-     *         }
-     *     }
-     *
-     *     const setting = NotificationSetting.find("nighttime");
-     *     setting?.enabled; // true, even if nothing is stored!!
-     */
-    static _default_?: { [_id: string]: any };
 
     /**
      * _area_
@@ -94,6 +72,27 @@ export class Model extends IDProvider {
      */
     static schema: Schema = {};
 
+    /**
+     * _default_
+     * Overwite this property if you want to get some value even when nothing is stored.
+     * When some saving operation, like `save` or `create`, has been called,
+     * this default records will be stored in your storage as well.
+     * e.g.,
+     *     class NotificationSetting extends Model {
+     *         static overwrite _default_ = {
+     *             "daytime": {
+     *               enabled: true,
+     *             },
+     *             "nighttime": {
+     *               enabled: false,
+     *             },
+     *         }
+     *     }
+     *
+     *     const setting = NotificationSetting.find("nighttime");
+     *     setting?.enabled; // true, even if nothing is stored!!
+     */
+    static default?: { [_id: string]: any };
 
     /**
      * @private Strictly internal
@@ -108,7 +107,7 @@ export class Model extends IDProvider {
     static async __rawdict__<T>(this: ModelConstructor<T>): Promise<{ [key: string]: any }> {
         const namespace: string = this.__ns__();
         const ensemble = await this._area_.get(namespace);
-        return ensemble?.[namespace] || this._default_ || {};
+        return Object.keys(ensemble?.[namespace] || {}).length != 0 ? ensemble[namespace] : (this.default || {});
     }
 
     static useStorage(area: StorageArea) {
@@ -145,10 +144,10 @@ export class Model extends IDProvider {
 
     static async find<T>(this: ModelConstructor<T>, id: string): Promise<T | null> {
         const dict = await this.__rawdict__();
-        const entry = dict[id] || this._default_?.[id] || null;
+        const entry = dict[id] || this.default?.[id] || null;
         if (!entry) return null;
         const instance = this["new"](entry, id) as Model;
-        await instance.__decode__(dict[id]);
+        await instance.__decode__(entry);
         return instance as T;
     }
 
