@@ -1,10 +1,12 @@
 {
   "name": "jstorm",
-  "version": "0.0.2",
+  "version": "0.5.0",
   "description": "JavaScript Storage ORM (Object-Relational Mapper) for LocalStorage and Chrome Storage API",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest --config=./jest.config.ts",
+    "test:all": "npm run test && npm run e2e",
+    "build": "npm run build:lib && npm run build:e2e && npm run build:doc",
     "build:lib": "tsc -p ./tsconfig.json",
     "build:e2e": "parcel build --no-cache --target e2e",
     "build:doc": "parcel build --no-cache --target docs",
