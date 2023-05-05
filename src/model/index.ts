@@ -98,7 +98,7 @@ export class Model extends IDProvider {
      * @private Strictly internal
      */
     static __ns__<T>(this: ModelConstructor<T>): string {
-        return this["__namespace__"] ?? this.name;
+        return this["_namespace_"] ?? this.name;
     }
 
     /**
