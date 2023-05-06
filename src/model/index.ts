@@ -63,7 +63,7 @@ export class Model extends IDProvider {
      *     // For window.sessionStorage,
      *     import { Model } from "jstorm/browser/session";
      */
-    static _area_: StorageArea = chrome?.storage?.local;
+    static _area_: StorageArea = (typeof chrome == "undefined" ? null : chrome.storage?.local);
 
     /**
      * schema
