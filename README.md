@@ -65,7 +65,7 @@ class Player extends Model {
 
     // Optional: If you'd like to minify/mangle your JS,
     // you'd better set the namespace of this mode explicitly.
-    static override __namespace__ = "Player";
+    static override _namespace_ = "Player";
 }
 ```
 
