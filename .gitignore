@@ -137,6 +137,4 @@ release
 .DS_Store
 /docs/*
 !/docs/main.tsx
-!/docs/main.js
-!/docs/main.css
 !/docs/index.html

@@ -1,17 +1,19 @@
 /// <reference types="@types/react" />
-/// <reference types="@types/react-dom" />
+/// <reference types="@types/react-dom/client" />
 declare var React;
-declare var ReactDOM;
+declare module ReactDOM {
+    function createRoot(e: HTMLElement | null);
+}
 
 /**
  * In your project, please use
  *   import { Model } from "jstorm/browser/local";
  */
 // import types from "react";
-import { Model } from "../lib/browser/local";
+import { Model } from "../src/browser/local";
 
 class Item extends Model {
-    static override __namespace__ = "Item";
+    static override _namespace_ = "Item";
     public title: string;
     public status: number;
 }
