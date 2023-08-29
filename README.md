@@ -24,6 +24,13 @@ Model.__area__ = yourCoolStorageAccessor;
 // NOTE: It should implement `chrome.storage.StorageArea` interface.
 ```
 
+# Getting started
+
+```sh
+npm install jstorm
+# or yarn add, pnpm add, whatever
+```
+
 # Example Usage
 
 ```typescript
@@ -49,13 +56,6 @@ class Player extends Model {
     console.log(await Player.list()); // [Player, Player] length 2
     console.log(await Player.find(x._id)); // Player {name:"otiai10", age: 17}
 })();
-```
-
-# Getting started
-
-```sh
-npm install jstorm
-# or yarn add, pnpm add, whatever
 ```
 
 # Basic APIs
