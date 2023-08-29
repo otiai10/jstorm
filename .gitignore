@@ -131,6 +131,7 @@ dist
 
 # Final Deliverables
 lib
+release
 
 # Dev environment
 .DS_Store
