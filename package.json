@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --config=./jest.config.ts",
     "test:all": "npm run test && npm run e2e",
-    "build": "npm run build:lib && npm run build:e2e && npm run build:doc",
+    "build": "npm run build:lib && npm run build:e2e && npm run build:doc && npm run pkg",
+    "pkg": "for pkg in `ls ./src/**/*/package.json`; do cp ${pkg} \"${pkg/src/lib}\" && echo Copied to ${pkg/src/lib}; done",
     "build:lib": "tsc -p ./tsconfig.json",
     "build:e2e": "parcel build --no-cache --target e2e",
     "build:doc": "parcel build --no-cache --target docs",

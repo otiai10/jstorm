@@ -51,6 +51,13 @@ class Player extends Model {
 })();
 ```
 
+# Getting started
+
+```sh
+npm install jstorm
+# or yarn add, pnpm add, whatever
+```
+
 # Basic APIs
 
 ## Defining your model class

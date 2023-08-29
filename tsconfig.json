@@ -13,10 +13,10 @@
     },
     "files": [
         "src/index.ts",
-        "src/chrome/local.ts",
-        "src/chrome/sync.ts",
-        "src/browser/local.ts",
-        "src/browser/session.ts",
+        "src/chrome/local/index.ts",
+        "src/chrome/sync/index.ts",
+        "src/browser/local/index.ts",
+        "src/browser/session/index.ts",
     ],
     "exclude": [
         "node_modules"
