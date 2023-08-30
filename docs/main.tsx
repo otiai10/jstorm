@@ -61,7 +61,7 @@ import { Model } from "jstorm/browser/local";
 
 // Define your model:
 class Item extends Model {
-    static override __namespace__ = "Item";
+    static override _namespace_ = "Item";
     public title: string;
     public status: number;
 }

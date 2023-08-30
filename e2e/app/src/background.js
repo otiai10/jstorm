@@ -2,7 +2,7 @@ import { Model } from "../../../lib/chrome/local";
 import sampledata from "../kcwidget/localstorage.json";
 
 class Player extends Model {
-    static __namespace__ = "Player";
+    static _namespace_ = "Player";
     greet() {
         return `Hello, my name is ${this.name}!`;
     }
@@ -33,7 +33,7 @@ self.example_001 = async function() {
 
 self.example_002 = async function() {
     class Frame extends Model {
-        static __namespace__ = "Frame";
+        static _namespace_ = "Frame";
     }
     return {
         ok: true,
