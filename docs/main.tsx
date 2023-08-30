@@ -56,7 +56,7 @@ const App: React.FunctionComponent = () => {
             </div>
             <div className="row">
                 <div className="column">
-                    <pre><code>{`// Import from "jstorm/browser/local" for localStorage:
+                    <pre className="prettyprint lang-js"><code>{`// Import from "jstorm/browser/local" for localStorage:
 import { Model } from "jstorm/browser/local";
 
 // Define your model:
@@ -83,7 +83,7 @@ class Item extends Model {
                     />
                 </div>
                 <div className="column column-40">
-                    <pre><code>{`// Insert new item:
+                    <pre className="prettyprint lang-js"><code>{`// Insert new item:
 const item = await Item.create({title: text, status: 0})`}</code></pre>
                 </div>
             </div>
@@ -92,7 +92,7 @@ const item = await Item.create({title: text, status: 0})`}</code></pre>
                     {items.map(item => <ItemView key={item._id} item={item} refresh={refresh} />)}
                 </div>
                 <div className="column column-40">
-                    <pre><code>{`// Update:
+                    <pre className="prettyprint lang-js"><code>{`// Update:
 item.update({status: 1});
 
 // Delete:
