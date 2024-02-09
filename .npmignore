@@ -1,0 +1,9 @@
+src
+tests
+docs
+e2e
+.github
+jest*
+tsconfig.json
+Makefile
+
