@@ -6,7 +6,7 @@
 [![Node.js CI](https://github.com/otiai10/jstorm/actions/workflows/node.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/node.yml)
 [![Chrome E2E Test](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml)
 [![codecov](https://codecov.io/github/otiai10/jstorm/branch/main/graph/badge.svg?token=z3Nzs6xVGF)](https://codecov.io/github/otiai10/jstorm)
-[![Maintainability](https://api.codeclimate.com/v1/badges/df8271f73cd0791369f6/maintainability)](https://codeclimate.com/github/otiai10/jstorm/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8ecdc594755e67ab171b/maintainability)](https://codeclimate.com/github/otiai10/jstorm/maintainability)
 
 ORM-like API provider for `window.localStorage` and `chrome.storage`, or any other data store.
 
