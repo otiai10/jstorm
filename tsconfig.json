@@ -17,6 +17,7 @@
         "src/chrome/sync/index.ts",
         "src/browser/local/index.ts",
         "src/browser/session/index.ts",
+        "src/runtime/node/index.ts",
     ],
     "exclude": [
         "node_modules"
