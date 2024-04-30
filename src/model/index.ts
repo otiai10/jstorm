@@ -38,7 +38,7 @@ export class Model extends IDProvider {
      *         static overwite _namespace_ = "Player";
      *     }
      */
-    static _namespace_?: string;
+    static readonly _namespace_?: string;
 
     /**
      * _area_
@@ -70,7 +70,7 @@ export class Model extends IDProvider {
      * Overwite this property to spacify validation and relation rules of this Model.
      * Please check https://github.com/otiai10/jstorm#schema for more detail.
      */
-    static schema: Schema = {};
+    static readonly schema: Schema = {};
 
     /**
      * _default_
@@ -92,7 +92,7 @@ export class Model extends IDProvider {
      *     const setting = NotificationSetting.find("nighttime");
      *     setting?.enabled; // true, even if nothing is stored!!
      */
-    static default?: { [_id: string]: any };
+    static readonly default?: { [_id: string]: any };
 
     /**
      * @private Strictly internal
@@ -184,7 +184,7 @@ export class Model extends IDProvider {
     }
 
     /**
-     * Strictly internal
+     * @private Strictly internal
      * @param {Object} raw
      * @returns {Promise<T>}
      */
