@@ -17,13 +17,19 @@ type ModelConstructor<T> = {
 };
 
 class IDProvider {
-    static _nextID_: (ensemble?: { [key: string]: any }) => string = this.timestampID;
+    static _nextID_: (ensemble?: { [key: string]: any }) => string = this.randomShortID;
     static timestampID(): string {
         return String(Date.now());
     }
     static sequentialID(ensemble: { [key:string]: any} = {}): string {
         const last = Object.keys(ensemble).map(id => parseInt(id, 10)).sort((prev, next) => (prev < next) ? -1 : 1).pop();
         return String((last || 0) + 1);
+    }
+    // static randomUUID(): string {
+    //     return crypto.randomUUID();
+    // }
+    static randomShortID(): string {
+        return Math.random().toString(36).slice(2);
     }
 }
 
