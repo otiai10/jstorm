@@ -3,6 +3,8 @@ import { createPrimitiveTypeChecker } from "./primitive";
 import { createDateTypeChecker } from "./date";
 import { modelTypeChecker } from "./model";
 import { arrayOfTypeChecker } from "./arrayof";
+import { dictTypeChecker } from "./dictof";
+import { shapeTypeChecker } from "./shape";
 
 export const Types = {
     /**
@@ -24,5 +26,7 @@ export const Types = {
      */
     model: modelTypeChecker,
     arrayOf: arrayOfTypeChecker,
+    dictOf: dictTypeChecker,
+    shape: shapeTypeChecker,
 };
 

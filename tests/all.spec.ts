@@ -174,6 +174,15 @@ describe("Model", () => {
             const conf = await Conference.find(afc._id!);
             expect(conf?.teams[0].captain).toBeInstanceOf(Player);
         });
+
+        describe("Types.shape", () => {
+            it.skip("should validate set values before saving", async () => {
+            });
+        });
+        describe("Types.dictOf", () => {
+            it.skip("should validate set values before saving", async () => {
+            });
+        });
     });
 
     describe("default", () => {
