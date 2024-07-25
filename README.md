@@ -1,7 +1,6 @@
 # jstorm
 
 [![version](https://img.shields.io/npm/v/jstorm)](https://www.npmjs.com/package/jstorm)
-[![Try it on RunKit](https://img.shields.io/static/v1?label=Try%20it%20online%20on&message=RunKit&color=f55fa6)](https://npm.runkit.com/jstorm)
 [![downloads](https://img.shields.io/npm/dt/jstorm)](https://www.npmjs.com/package/jstorm)
 [![Node.js CI](https://github.com/otiai10/jstorm/actions/workflows/node.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/node.yml)
 [![Chrome E2E Test](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml/badge.svg)](https://github.com/otiai10/jstorm/actions/workflows/chrome-test.yml)
