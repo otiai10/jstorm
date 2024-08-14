@@ -3,6 +3,8 @@ import type { TypeCheckFunc } from "../types";
 
 export type Schema = { [key: string]: TypeCheckFunc };
 
+const JSTORM_VOLATILITY_PREFIX = "$";
+
 type ModelConstructor<T> = {
     schema: Schema;
     default?: { [key: string]: any };
@@ -168,7 +170,7 @@ export class Model extends IDProvider {
         const parent = (this.constructor as ModelConstructor<T>);
         const dict = await parent.__rawdict__();
         if (!this._id) this._id = parent._nextID_(dict);
-        dict[this._id!] = this;
+        dict[this._id!] = this.__volatilize__();
         await parent._area_.set({ [parent.__ns__()]: dict });
         return this;
     }
@@ -199,6 +201,7 @@ export class Model extends IDProvider {
         for (let key in schema) {
             if (!this.hasOwnProperty(key)) continue;
             if (!raw.hasOwnProperty(key)) continue;
+            if (key.startsWith(JSTORM_VOLATILITY_PREFIX)) continue;
             if (typeof schema[key].load == "function") {
                 this[key] = await schema[key].load(raw[key]);
             } else {
@@ -208,4 +211,15 @@ export class Model extends IDProvider {
         return this;
     }
 
+    /**
+     * @private Strictly internal
+     * @returns {Promise<{ [key: string]: any }>}
+     */
+    __volatilize__() {
+        Object.keys(this).map(key => {
+            if (!this.hasOwnProperty(key)) return this[key] = undefined;
+            if (key.startsWith(JSTORM_VOLATILITY_PREFIX)) return this[key] = undefined;
+        });
+        return this;
+    }
 }

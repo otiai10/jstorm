@@ -33,6 +33,21 @@ describe("Model", () => {
             await otiai10.save();
             expect(otiai10._id).not.toBe(null);
         });
+
+        it("doesn't save properties starting with `$`", async () => {
+            class Player extends Model {
+                public name: string;
+                public $secret: string;
+            }
+            const otiai40 = Player.new({ name: "otiai40", $secret: "I love sushi" });
+            expect(otiai40).toBeInstanceOf(Player);
+            expect(otiai40.$secret).toBe("I love sushi");
+            await otiai40.save();
+            expect(otiai40._id).not.toBe(null);
+            const found = await Player.find(otiai40._id!);
+            expect(found?.$secret).toBeUndefined();
+            expect(found?.name).toBe("otiai40");
+        });
     });
 
     describe("create", () => {
