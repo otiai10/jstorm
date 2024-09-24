@@ -1,6 +1,7 @@
 
 /// <reference path="./node_modules/@types/chrome/index.d.ts" />
 
+declare var global: any;
 Object.assign(global, {
     chrome: {
         storage: {
