@@ -29,6 +29,7 @@ const data = [
       `--load-extension=${ext}`,
     ],
   });
+  await browser.newPage();
   const background = await browser.waitForTarget(
     target => target.type() === 'service_worker',
   );
