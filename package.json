@@ -6,13 +6,13 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "jest --config=./jest.config.ts",
-    "test:all": "npm run test && npm run e2e",
-    "build": "npm run build:lib && npm run build:e2e && npm run build:doc",
+    "test:all": "pnpm run test && pnpm run e2e",
+    "build": "pnpm run build:lib && pnpm run build:e2e && pnpm run build:doc",
     "build:lib": "tsc -p ./tsconfig.json",
     "build:e2e": "parcel build --no-cache --target e2e",
     "build:doc": "parcel build --no-cache --target docs",
-    "e2e": "npm run build:lib && npm run build:e2e && ts-node ./e2e/run.ts",
-    "doc": "npm run build:lib && npm run build:doc && echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
+    "e2e": "pnpm run build:lib && pnpm run build:e2e && ts-node ./e2e/run.ts",
+    "doc": "pnpm run build:lib && pnpm run build:doc && echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
     "clean": "rm -rf ./lib ./e2e/app/dist"
   },
   "repository": {
@@ -58,5 +58,14 @@
       "optimize": true,
       "sourceMap": false
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "lmdb",
+      "msgpackr-extract",
+      "puppeteer"
+    ]
   }
 }

@@ -3,14 +3,14 @@ clean:
 	rm -rf lib release
 
 install:
-	npm install
+	pnpm install
 
 release: clean install
-	npm run build
+	pnpm run build
 	cp package.json      lib
-	cp package-lock.json lib
+	cp pnpm-lock.yaml    lib
 	cp README.md         lib
 	mv lib release
 
 publish: release
-	npm publish ./release
+	pnpm publish ./release
