@@ -35,6 +35,12 @@ const data = [
   );
   const worker = await background.worker();
 
+  // Wait for the service worker script to fully execute before calling setup_data
+  await worker!.evaluate(`new Promise((resolve, reject) => {
+    const check = () => typeof setup_data === 'function' ? resolve() : setTimeout(check, 100);
+    check();
+    setTimeout(() => reject(new Error('setup_data not defined after timeout')), 10000);
+  })`);
   await worker!.evaluate("setup_data()");
 
   const errors: any[] = [];
