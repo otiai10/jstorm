@@ -8,12 +8,17 @@ on:
 
 jobs:
   e2e:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-    - run: npm ci
-    - run: npx -y update-browserslist-db@latest
-    - run: npm run e2e
+        cache: 'pnpm'
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm exec puppeteer browsers install chrome
+    - run: pnpm dlx update-browserslist-db@latest
+    - run: pnpm run e2e

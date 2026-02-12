@@ -33,6 +33,9 @@ Object.assign(global, {
                         return ctx;
                     }, {});
                     return new Promise(resolve => setTimeout(() => resolve(result), 0));
+                },
+                async getKeys() {
+                    return Object.keys(this.__dict__);
                 }
             },
         }

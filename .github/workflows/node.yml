@@ -15,12 +15,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm test -- --coverage
+        cache: 'pnpm'
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm test -- --coverage
   build:
     strategy:
       matrix:
@@ -28,24 +32,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-    - run: npm ci
-    - run: npm run build:lib
-    - run: npm run build:e2e
-    - run: npm run build:doc
+        cache: 'pnpm'
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm run build:lib
+    - run: pnpm run build:e2e
+    - run: pnpm run build:doc
   coverage:
     needs: [test, build]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
         node-version: 20
-    - run: npm ci
-    - run: npm test -- --coverage
+        cache: 'pnpm'
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm test -- --coverage
     - uses: codecov/codecov-action@v4
       with:
         file: ./coverage/coverage-final.json
