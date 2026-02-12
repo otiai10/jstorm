@@ -19,5 +19,6 @@ jobs:
         node-version: 20
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
+    - run: pnpm exec puppeteer browsers install chrome
     - run: pnpm dlx update-browserslist-db@latest
     - run: pnpm run e2e
