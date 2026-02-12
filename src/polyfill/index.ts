@@ -152,6 +152,17 @@ function convertWebStorageToChromeStorageArea(webstorage: Storage): StorageArea 
     function removeRules(callback?: () => void): void;
     function removeRules(x?: string[] | { (): void }, y?: () => void): void { }
 
+    /**
+     * getKeys
+     */
+    function getKeys(): Promise<string[]>;
+    function getKeys(callback: (keys: string[]) => void): void;
+    function getKeys(callback?: (keys: string[]) => void): Promise<string[]> | void {
+        const keys = Object.keys(webstorage);
+        if (callback) callback(keys);
+        else return Promise.resolve(keys);
+    }
+
     // TODO: Use this event listener and omit events in other functions.
     let __eventListener__: null | { (changes: { [key: string]: chrome.storage.StorageChange }): void } = null;
 
@@ -161,6 +172,7 @@ function convertWebStorageToChromeStorageArea(webstorage: Storage): StorageArea 
         set,
         remove,
         get,
+        getKeys,
         setAccessLevel,
         onChanged: {
             addListener(callback: (changes: {[key:string]: chrome.storage.StorageChange}) => void) {
