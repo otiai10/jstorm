@@ -20,6 +20,7 @@
         "src/browser/local/index.ts",
         "src/browser/session/index.ts",
         "src/runtime/node/index.ts",
+        "src/testing/index.ts",
     ],
     "exclude": [
         "node_modules"

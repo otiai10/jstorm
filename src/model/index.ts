@@ -11,6 +11,7 @@ type ModelConstructor<T> = {
     _area_: StorageArea;
 
     __ns__(): string;
+    __area__(): StorageArea;
     __rawdict__(): { [key: string]: any };
     _nextID_(ensemble?: { [key: string]: any }): string;
 
@@ -114,12 +115,31 @@ export class Model extends IDProvider {
      */
     static async __rawdict__<T>(this: ModelConstructor<T>): Promise<{ [key: string]: any }> {
         const namespace: string = this.__ns__();
-        const ensemble = await this._area_.get(namespace);
+        const ensemble = await this.__area__().get(namespace);
         return Object.keys(ensemble?.[namespace] || {}).length != 0 ? ensemble[namespace] : (this.default || {});
     }
 
     static useStorage(area: StorageArea) {
         this._area_ = area;
+    }
+
+    /**
+     * @private Strictly internal
+     * Resolve the configured StorageArea at call time (not at import time).
+     * This is the single runtime point where the storage backend is required:
+     * importing a Model never depends on a global `chrome` being present, and
+     * operating without a configured area fails with an actionable message
+     * instead of a cryptic `Cannot read properties of null (reading 'get')`.
+     */
+    static __area__<T>(this: ModelConstructor<T>): StorageArea {
+        const area = this._area_;
+        if (!area) {
+            throw new Error(
+                "jstorm: no StorageArea configured. " +
+                "Call Model.useStorage(...) or run in an extension context."
+            );
+        }
+        return area;
     }
 
     static new<T>(this: ModelConstructor<T>, props?: Record<string, any>, _id?: string): T {
@@ -160,7 +180,7 @@ export class Model extends IDProvider {
     }
 
     static async drop<T>(this: ModelConstructor<T>): Promise<void> {
-        await this._area_.set({ [this.__ns__()]: {} });
+        await this.__area__().set({ [this.__ns__()]: {} });
         return;
     }
 
@@ -171,7 +191,7 @@ export class Model extends IDProvider {
         const dict = await parent.__rawdict__();
         if (!this._id) this._id = parent._nextID_(dict);
         dict[this._id!] = this.__volatilize__();
-        await parent._area_.set({ [parent.__ns__()]: dict });
+        await parent.__area__().set({ [parent.__ns__()]: dict });
         return this;
     }
 
@@ -179,7 +199,7 @@ export class Model extends IDProvider {
         const parent = (this.constructor as ModelConstructor<T>);
         const dict = await parent.__rawdict__();
         delete dict[this._id];
-        await parent._area_.set({ [parent.__ns__()]: dict });
+        await parent.__area__().set({ [parent.__ns__()]: dict });
         delete this._id;
         return this;
     }
