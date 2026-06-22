@@ -8,7 +8,7 @@
     "test": "jest --config=./jest.config.ts",
     "test:all": "pnpm run test && pnpm run e2e",
     "build": "pnpm run build:lib && pnpm run build:e2e && pnpm run build:doc",
-    "build:lib": "tsc -p ./tsconfig.json",
+    "build:lib": "tsc -p ./tsconfig.json && cp README.md lib/ && node ./scripts/stage-manifest.js",
     "build:e2e": "parcel build --no-cache --target e2e",
     "build:doc": "parcel build --no-cache --target docs",
     "e2e": "pnpm run build:lib && pnpm run build:e2e && ts-node ./e2e/run.ts",
@@ -31,6 +31,9 @@
     "url": "https://github.com/otiai10/jstorm/issues"
   },
   "homepage": "https://github.com/otiai10/jstorm#readme",
+  "publishConfig": {
+    "directory": "lib"
+  },
   "devDependencies": {
     "@types/chrome": "^0.0.287",
     "@types/jest": "^29.5.14",
