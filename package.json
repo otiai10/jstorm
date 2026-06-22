@@ -13,7 +13,8 @@
     "build:doc": "parcel build --no-cache --target docs",
     "e2e": "pnpm run build:lib && pnpm run build:e2e && ts-node ./e2e/run.ts",
     "doc": "pnpm run build:lib && pnpm run build:doc && echo chrome.exe ./docs/index.html --user-data-dir=./docs/tmp --disable-web-security",
-    "clean": "rm -rf ./lib ./e2e/app/dist"
+    "clean": "rm -rf ./lib ./e2e/app/dist",
+    "release": "node ./scripts/release.js"
   },
   "repository": {
     "type": "git",
