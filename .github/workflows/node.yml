@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [20]
+        node-version: [26]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
@@ -22,6 +22,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        check-latest: true
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
     - run: pnpm test -- --coverage
@@ -37,7 +38,8 @@ jobs:
         version: 9
     - uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: '26'
+        check-latest: true
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
     - run: pnpm run build:lib
@@ -54,7 +56,8 @@ jobs:
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: '26'
+        check-latest: true
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
     - run: pnpm test -- --coverage
